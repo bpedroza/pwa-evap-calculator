@@ -1,6 +1,6 @@
 {
-  "name": "evap",
-  "short_name": "evap",
+  "name": "Evaporative Cooler Calculator",
+  "short_name": "Evap Cool",
   "icons": [
     {
       "src": "/img/icons/android-chrome-192x192.png",
