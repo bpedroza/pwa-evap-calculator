@@ -2,7 +2,7 @@
 <v-container grid-list-lg>
   <v-slide-y-transition mode="out-in">
     <v-layout row wrap>
-      <weather-fetcher @weatherUpdate="updateWeather"></weather-fetcher>
+      <weather-fetcher></weather-fetcher>
       <v-flex xs12>
         <v-card class="elevation-12">
           <v-card-text>
@@ -28,6 +28,7 @@
 
 <script>
 import WeatherFetcher from './WeatherFetcher.vue';
+
 export default {
   name: 'Calculator',
   components: {
@@ -35,11 +36,25 @@ export default {
   },
   data() {
     return {
-      humidity: 0,
-      temperature: 0
     };
   },
   computed: {
+    temperature: {
+      get() {
+        return this.$store.getters.temperature;
+      },
+      set(newTemp) {
+        this.$store.commit('setTemp', newTemp);
+      }
+    },
+    humidity: {
+      get() {
+        return this.$store.getters.humidity;
+      },
+      set(newHumidity) {
+        this.$store.commit('setHumidity', newHumidity);
+      }
+    },
     outputTemp() {
       const maxDecrease = this.numOrZero(this.temperature) * .33;
       const lossCoefficient = this.humidity > 50 ? 1.1 : 1.5;
@@ -53,10 +68,6 @@ export default {
   methods: {
     numOrZero(num) {
       return !isNaN(num) ? num : 0;
-    },
-    updateWeather(data) {
-      this.temperature = data.temperature;
-      this.humidity = data.humidity;
     }
   }
 }

@@ -1,29 +1,21 @@
 <template>
-  <v-app>
-    <v-toolbar app>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
-      <v-spacer></v-spacer>
-    </v-toolbar>
-    <v-content>
-      <calculator/>
-    </v-content>
-  </v-app>
+<v-app>
+    <transition name="slide" mode="out-in">
+      <router-view></router-view>
+    </transition>
+</v-app>
 </template>
-
 <script>
-import Calculator from './components/Calculator'
-
 export default {
   name: 'App',
-  components: {
-    Calculator
-  },
-  data () {
-    return {
-      fixed: false,
-      miniVariant: false,
-      title: 'Evaporative Cooler Helper'
-    }
-  }
 }
 </script>
+<style>
+.slide-enter-active {
+  transition: all .3s ease;
+}
+
+.slide-enter, .slide-leave-to {
+  transform: translateX(400px);
+}
+</style>

@@ -14,7 +14,8 @@ import {
   VForm,
   VTextField,
   VAlert,
-  VSnackbar
+  VSnackbar,
+  VDivider
 } from 'vuetify';
 import 'vuetify/src/stylus/app.styl';
 import colors from 'vuetify/es5/util/colors';
@@ -37,6 +38,7 @@ Vue.use(Vuetify, {
     VForm,
     VTextField,
     VAlert,
-    VSnackbar
+    VSnackbar,
+    VDivider
   }
 });

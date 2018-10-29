@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 export default {
   data() {
     return {
@@ -46,6 +47,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(['setTemp', 'setHumidity']),
     requestLocation() {
       this.loading = true;
       if (navigator.geolocation) {
@@ -77,10 +79,8 @@ export default {
         .then((response) => {
           if (response.status === 200) {
             response.json().then((data) => {
-              that.$emit('weatherUpdate', {
-                temperature: Math.ceil((data.main.temp * (9 / 5)) - 459.67),
-                humidity: data.main.humidity,
-              });
+              that.setTemp(Math.ceil((data.main.temp * (9 / 5)) - 459.67));
+              that.setHumidity(data.main.humidity);
             });
           } else {
             that.showZipError();
