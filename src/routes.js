@@ -9,4 +9,8 @@ export default [{
 {
   path: '/about',
   component: About
+},
+{
+  path: '*',
+  component: Home
 }];
