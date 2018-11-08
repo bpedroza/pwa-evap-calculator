@@ -4,7 +4,7 @@
     <v-layout row wrap>
       <weather-fetcher></weather-fetcher>
       <v-flex xs12>
-        <v-card class="elevation-12">
+        <v-card class="elevation-8">
           <v-card-text>
             <v-form>
               <v-text-field prepend-icon="wb_sunny" name="temperature" v-model="temperature" label="Temperature" type="number"></v-text-field>
@@ -14,7 +14,7 @@
         </v-card>
       </v-flex>
       <v-flex xs12>
-        <v-card class="elevation-12">
+        <v-card class="elevation-8">
           <v-card-text>
             <h2 class="output-heading">Output Temperature</h2>
             <h3 class="output-temp"><v-icon color="blue lighten-3" left>ac_unit</v-icon> {{ outputTemp }}F</h3>

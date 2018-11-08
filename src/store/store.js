@@ -5,10 +5,7 @@ import weather from './modules/weather';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    routeTransition: 'slide-over',
-
-  },
+  state: {},
   getters: {},
   mutations: {},
   actions: {},

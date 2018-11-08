@@ -3,7 +3,7 @@
   <v-snackbar color="warning" v-model="showError">
     {{errorMessage}}
   </v-snackbar>
-  <v-card class="elevation-12">
+  <v-card class="elevation-8">
     <v-card-text>
       <v-form @submit.prevent="requestLocation"  v-if="showZipCode">
         <v-text-field
