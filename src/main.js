@@ -1,7 +1,6 @@
-import '@babel/polyfill';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import './plugins/vuetify';
+import vuetify from './plugins/vuetify';
 import App from './App.vue';
 import './registerServiceWorker';
 import routes from './routes';
@@ -20,4 +19,5 @@ new Vue({
   render: h => h(App),
   router,
   store,
+  vuetify,
 }).$mount('#app');

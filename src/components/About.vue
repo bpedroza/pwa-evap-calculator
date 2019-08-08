@@ -1,12 +1,12 @@
 <template>
 <div>
-  <v-toolbar app>
+  <v-app-bar app>
     <v-btn icon @click="$router.go(-1)">
       <v-icon>arrow_back</v-icon>
     </v-btn>
     <v-toolbar-title>About This Tool</v-toolbar-title>
     <v-spacer></v-spacer>
-  </v-toolbar>
+  </v-app-bar>
   <v-content>
     <v-container grid-list-lg>
       <v-layout row wrap>
@@ -65,10 +65,10 @@
               <p>
                 That looks something like this:
               </p>
-                <code>maxDecrease = temperature * .33</code>
-                <code>lossCoefficient = when humidity > 50 then 1.1 else 1.5</code>
-                <code>effeciencyLoss = humidity * lossCoefficient</code>
-                <code>actualDecrease = maxDecrease - (maxDecrease * (effeciencyLoss / 100))</code>
+                <code>maxDecrease = temperature * .33</code><br />
+                <code>lossCoefficient = when humidity > 50 then 1.1 else 1.5</code><br />
+                <code>effeciencyLoss = humidity * lossCoefficient</code><br />
+                <code>actualDecrease = maxDecrease - (maxDecrease * (effeciencyLoss / 100))</code><br />
                 <code>outputTemperature = ceiling(temperature - actualDecrease)</code>
             </v-card-text>
           </v-card>

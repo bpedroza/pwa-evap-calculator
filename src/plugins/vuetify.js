@@ -1,44 +1,21 @@
 import Vue from 'vue'
-import {
-  Vuetify,
-  VApp,
-  VNavigationDrawer,
-  VFooter,
-  VList,
-  VBtn,
-  VIcon,
-  VGrid,
-  VToolbar,
-  transitions,
-  VCard,
-  VForm,
-  VTextField,
-  VAlert,
-  VSnackbar,
-  VDivider
-} from 'vuetify';
-import 'vuetify/src/stylus/app.styl';
-import colors from 'vuetify/es5/util/colors';
+import Vuetify from 'vuetify/lib'
+import 'vuetify/dist/vuetify.min.css'
+import colors from 'vuetify/lib/util/colors'
 
-Vue.use(Vuetify, {
-  theme: {
-    primary: colors.blue.lighten2
+const opts = {
+  icons: {
+    iconfont: 'md',
   },
-  components: {
-    VApp,
-    VNavigationDrawer,
-    VFooter,
-    VList,
-    VBtn,
-    VIcon,
-    VGrid,
-    VToolbar,
-    transitions,
-    VCard,
-    VForm,
-    VTextField,
-    VAlert,
-    VSnackbar,
-    VDivider
+  theme: {
+    themes: {
+      light: {
+        primary: colors.blue.lighten2
+      }
+    }
   }
-});
+};
+
+Vue.use(Vuetify);
+
+export default new Vuetify(opts);

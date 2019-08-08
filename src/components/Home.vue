@@ -1,11 +1,11 @@
 <template>
 <div>
   <Drawer :drawer="nav.drawer" @drawerStatus="nav.drawer = $event" :position="nav.position" />
-  <v-toolbar fixed app :clipped-left="clipped">
-    <v-toolbar-side-icon @click.stop="nav.drawer = !nav.drawer"></v-toolbar-side-icon>
+  <v-app-bar fixed app :clipped-left="clipped">
+    <v-app-bar-nav-icon @click.stop="nav.drawer = !nav.drawer"></v-app-bar-nav-icon>
     <v-toolbar-title v-text="title"></v-toolbar-title>
     <v-spacer></v-spacer>
-  </v-toolbar>
+  </v-app-bar>
   <v-content>
     <Calculator />
   </v-content>
