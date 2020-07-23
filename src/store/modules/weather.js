@@ -1,18 +1,26 @@
 export default {
   state: {
-    temperature: 0,
-    humidity: 0,
+    data: [
+      {
+        time: 'Current',
+        temperature: 0,
+        humidity: 0,
+      },
+    ],
   },
   getters: {
-    temperature: state => state.temperature,
-    humidity: state => state.humidity,
+    data: state => state.data,
+    current: state => state.data[0],
   },
   mutations: {
+    setData(state, data) {
+      state.data = data;
+    },
     setTemp(state, temp) {
-      state.temperature = temp;
+      state.data[0].temperature = temp;
     },
     setHumidity(state, humidity) {
-      state.humidity = humidity;
+      state.data[0].humidity = humidity;
     },
   },
 };

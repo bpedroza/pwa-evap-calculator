@@ -7,6 +7,7 @@
         <v-card class="elevation-8">
           <v-card-text>
             <v-form>
+              <v-select v-model="selected" v-if="showOptions" :items="options" item-text="time"></v-select>
               <v-text-field prepend-icon="wb_sunny" name="temperature" v-model="temperature" label="Temperature" type="number"></v-text-field>
               <v-text-field prepend-icon="invert_colors" name="humidity" v-model="humidity" label="Humidity" id="humidity" type="number"></v-text-field>
             </v-form>
@@ -32,38 +33,53 @@ import WeatherFetcher from './WeatherFetcher.vue';
 export default {
   name: 'Calculator',
   components: {
-    WeatherFetcher
+    WeatherFetcher,
   },
   data() {
     return {
+      selected: 'Current',
     };
   },
   computed: {
     temperature: {
       get() {
-        return this.$store.getters.temperature;
+        const vm = this;
+        return this.$store.getters.data.find((el) => {
+          return el.time === vm.selected;
+      }).temperature;
       },
       set(newTemp) {
+        this.selected = 'Current';
         this.$store.commit('setTemp', newTemp);
       }
     },
     humidity: {
       get() {
-        return this.$store.getters.humidity;
+        const vm = this;
+        return this.$store.getters.data.find((el) => {
+            return el.time === vm.selected;
+        }).humidity;
       },
       set(newHumidity) {
+        this.selected = 'Current';
         this.$store.commit('setHumidity', newHumidity);
       }
     },
+    options() {
+      return this.$store.getters.data;
+    },
     outputTemp() {
-      const maxDecrease = this.numOrZero(this.temperature) * .33;
+      const maxDecrease = this.numOrZero(this.temperature) * 0.33;
       const lossCoefficient = this.humidity > 50 ? 1.1 : 1.5;
       const effeciencyLoss = this.numOrZero(this.humidity) * lossCoefficient;
       const actualDecrease = maxDecrease - (maxDecrease * (effeciencyLoss / 100));
       const output = Math.ceil(this.temperature - actualDecrease);
 
       return output <= 0 ? '--' : output;
-    }
+    },
+    showOptions() {
+      return Object.keys(this.$store.getters.data).length > 1;
+    },
   },
   methods: {
     numOrZero(num) {

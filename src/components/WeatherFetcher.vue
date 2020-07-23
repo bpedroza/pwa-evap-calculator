@@ -29,6 +29,8 @@
 
 <script>
 import { mapMutations } from 'vuex';
+import WeatherApi from '../WeatherApi';
+
 export default {
   data() {
     return {
@@ -66,48 +68,19 @@ export default {
       });
     },
     getDataFromApi() {
-      const that = this;
-      const url = this.getUrl();
-
-      if (url === false) {
+      const API = new WeatherApi(this.lat, this.lon, this.zipcode);
+      API.get.bind(API)((data) => {
+        this.$store.commit('setData', data);
         this.loading = false;
-        this.showZipError();
-        return;
-      }
-
-      fetch(url)
-        .then((response) => {
-          if (response.status === 200) {
-            response.json().then((data) => {
-              that.setTemp(Math.ceil((data.main.temp * (9 / 5)) - 459.67));
-              that.setHumidity(data.main.humidity);
-            });
-          } else {
-            that.showZipError();
-          }
-
-          that.loading = false;
-        })
-        .catch(() => {
-          that.errorMessage = 'Please check your internet connection.';
-          that.showError = true;
-          that.loading = false;
-        });
-    },
-    getUrl() {
-      const url = 'https://api.openweathermap.org/data/2.5/weather?appid=b1f23236fdf1d2e5dbbcadbdaad4a41e&';
-
-      if (this.zipcode.length === 5) {
-        return `${url}zip=${this.zipcode}`;
-      }
-
-      if (this.lat && this.lon) {
-        this.showZipCode = false;
-        return `${url}lat=${this.lat}&lon=${this.lon}`;
-      }
-
-      this.showZipError();
-      return false;
+      }, (error) => {
+        if (error === null) {
+          this.showZipError();
+        } else {
+          this.errorMessage = error;
+          this.showError = true;
+        }
+        this.loading = false;
+      });
     },
     showZipError() {
       this.showZipCode = true;
