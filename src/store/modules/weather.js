@@ -22,10 +22,10 @@ export default {
       state.data = data;
     },
     setTemp(state, temp) {
-      state.data[0].temperature = temp;
+      state.data[0].hours[0].temperature = temp;
     },
     setHumidity(state, humidity) {
-      state.data[0].humidity = humidity;
+      state.data[0].hours[0].humidity = humidity;
     },
   },
 };
