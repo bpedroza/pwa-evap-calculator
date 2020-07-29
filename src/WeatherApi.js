@@ -1,12 +1,31 @@
 export default class WeatherApi {
   appId = 'b1f23236fdf1d2e5dbbcadbdaad4a41e';
-  baseUrl = 'https://api.openweathermap.org/data/2.5/';
-  data = {};
-  isZip = false;
-  lat = null;
-  lon = null;
-  zipcode = '';
 
+  baseUrl = 'https://api.openweathermap.org/data/2.5/';
+
+  data = {};
+
+  dateOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+
+  isZip = false;
+
+  lat = null;
+
+  lon = null;
+
+  now = new Date();
+
+  timeOptions = {
+    hour: 'numeric',
+    hour12: true,
+  };
+
+  zipcode = '';
 
   constructor(lat, lon, zipcode) {
     this.lat = lat;
@@ -14,50 +33,64 @@ export default class WeatherApi {
     this.zipcode = zipcode;
   }
 
+  formateDate(date) {
+    return date.toLocaleDateString('en-US', this.dateOptions);
+  }
+
+  formateTime(date) {
+    return date.toLocaleTimeString('en-US', this.timeOptions);
+  }
+
   formatOneCall() {
     const {
       current,
-      daily,
+      hourly,
     } = this.data;
-
-    let data = [
-      {
-        time: 'Current',
-        temperature: Math.ceil((current.temp * (9 / 5)) - 459.67),
-        humidity: current.humidity,
+    const data = {
+      'Current': {
+        date: 'Current',
+        hours: [
+          {
+            time: 'Now',
+            temperature: this.toFahrenheit(current.temp),
+            humidity: current.humidity,
+          }
+        ],
       },
-    ];
+    };
 
-    daily.forEach((item) => {
-      const options = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      };
+    hourly.forEach((item) => {
       const date = new Date(item.dt * 1000);
-      const dateString = date.toLocaleDateString('en-US', options);
-      data.push({
-        time: dateString,
-        temperature: Math.ceil((item.temp.day * (9 / 5)) - 459.67),
+
+      const dateString = this.formateDate(date);
+      data[dateString] = data[dateString] || {
+        date: dateString,
+        hours: [],
+      };
+      data[dateString].hours.push({
+        temperature: this.toFahrenheit(item.temp),
         humidity: item.humidity,
+        time: this.formateTime(date),
       });
     });
 
-    return data;
+    return Object.values(data);
   }
 
   formatWeather() {
     const {
       main,
     } = this.data;
-    return [
-      {
-        time: 'Current',
-        temperature: Math.ceil((main.temp * (9 / 5)) - 459.67),
-        humidity: main.humidity,
-      },
-    ];
+    return [{
+      date: 'Current',
+      hours: [
+        {
+          time: 'Now',
+          temperature: this.toFahrenheit(main.temp),
+          humidity: main.humidity,
+        },
+      ],
+    }, ];
   }
 
   get(onSuccess, onFailure) {
@@ -83,6 +116,10 @@ export default class WeatherApi {
       .catch(() => {
         onFailure('Please check your internet connection.');
       });
+  }
+
+  toFahrenheit(temp) {
+    return Math.ceil((temp * (9 / 5)) - 459.67)
   }
 
   url() {

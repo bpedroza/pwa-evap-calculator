@@ -14,7 +14,7 @@
         type="number"></v-text-field>
       </v-form>
       <div v-if="!showZipCode">
-      <v-icon left>location_on</v-icon> {{ coordinates }}
+      <v-icon left>location_on</v-icon> My Location
       </div>
     </v-card-text>
     <v-card-actions>

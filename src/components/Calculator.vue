@@ -7,7 +7,14 @@
         <v-card class="elevation-8">
           <v-card-text>
             <v-form>
-              <v-select v-model="selected" v-if="showOptions" :items="options" item-text="time"></v-select>
+              <v-layout v-if="showOptions">
+                <v-flex xs8>
+                  <v-select prepend-icon="date_range" v-model="selected" :items="options" item-text="date"></v-select>
+                </v-flex>
+                <v-flex xs4>
+                  <v-select prepend-icon="schedule" v-model="selectedTime" :items="timeOptions" item-text="time"></v-select>
+                </v-flex>
+              </v-layout>
               <v-text-field prepend-icon="wb_sunny" name="temperature" v-model="temperature" label="Temperature" type="number"></v-text-field>
               <v-text-field prepend-icon="invert_colors" name="humidity" v-model="humidity" label="Humidity" id="humidity" type="number"></v-text-field>
             </v-form>
@@ -38,38 +45,44 @@ export default {
   data() {
     return {
       selected: 'Current',
+      selectedTime: 'Now',
     };
   },
   computed: {
     temperature: {
       get() {
         const vm = this;
-        return this.$store.getters.data.find((el) => {
-          return el.time === vm.selected;
-      }).temperature;
+        const found = this.timeOptions.find((el) => el.time === vm.selectedTime);
+
+        return found?.temperature || this.timeOptions[0].temperature;
       },
       set(newTemp) {
         this.selected = 'Current';
         this.$store.commit('setTemp', newTemp);
-      }
+      },
     },
     humidity: {
       get() {
         const vm = this;
-        return this.$store.getters.data.find((el) => {
-            return el.time === vm.selected;
-        }).humidity;
+        const found = this.timeOptions.find((el) => el.time === vm.selectedTime);
+
+        return found?.humidity || this.timeOptions[0].humidity;
       },
       set(newHumidity) {
         this.selected = 'Current';
         this.$store.commit('setHumidity', newHumidity);
-      }
+      },
     },
     options() {
       return this.$store.getters.data;
     },
+    timeOptions() {
+      const vm = this;
+
+      return this.options.find((el) => el.date === vm.selected)?.hours || [];
+    },
     outputTemp() {
-      const maxDecrease = this.numOrZero(this.temperature) * 0.33;
+      const maxDecrease = Math.min(30, this.numOrZero(this.temperature) * 0.33);
       const lossCoefficient = this.humidity > 50 ? 1.1 : 1.5;
       const effeciencyLoss = this.numOrZero(this.humidity) * lossCoefficient;
       const actualDecrease = maxDecrease - (maxDecrease * (effeciencyLoss / 100));
@@ -78,15 +91,15 @@ export default {
       return output <= 0 ? '--' : output;
     },
     showOptions() {
-      return Object.keys(this.$store.getters.data).length > 1;
+      return this.options.length > 1;
     },
   },
   methods: {
     numOrZero(num) {
       return !isNaN(num) ? num : 0;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

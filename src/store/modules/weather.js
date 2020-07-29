@@ -2,15 +2,20 @@ export default {
   state: {
     data: [
       {
-        time: 'Current',
-        temperature: 0,
-        humidity: 0,
+        date: 'Current',
+        hours: [
+          {
+            temperature: 0,
+            humidity: 0,
+            time: 'Now',
+          },
+        ],
       },
     ],
   },
   getters: {
-    data: state => state.data,
-    current: state => state.data[0],
+    data: (state) => state.data,
+    current: (state) => state.data[0],
   },
   mutations: {
     setData(state, data) {

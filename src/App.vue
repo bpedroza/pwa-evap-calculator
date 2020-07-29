@@ -12,27 +12,27 @@ export default {
     return {
       transitionName: 'slide-over',
       transitionMode: 'out-in',
-    }
+    };
   },
   watch: {
-    '$route'(to, from) {
-      let toDepth = to.path.split('/').length
-      const fromDepth = from.path.split('/').length
+    $route(to, from) {
+      let toDepth = to.path.split('/').length;
+      const fromDepth = from.path.split('/').length;
 
-      if(to.path == '/') {
-          toDepth = 0;
+      if (to.path === '/') {
+        toDepth = 0;
       }
 
-      if(toDepth < fromDepth) {
+      if (toDepth < fromDepth) {
         this.transitionName = 'slide-off';
         this.transitionMode = 'in-out';
       } else {
         this.transitionName = 'slide-over';
         this.transitionMode = 'out-in';
       }
-    }
+    },
   },
-}
+};
 </script>
 <style>
 .slide-over-enter-active {

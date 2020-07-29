@@ -7,7 +7,7 @@
     <v-toolbar-title>About This Tool</v-toolbar-title>
     <v-spacer></v-spacer>
   </v-app-bar>
-  <v-content>
+  <v-main>
     <v-container grid-list-lg>
       <v-layout row wrap>
         <v-flex xs12>
@@ -75,7 +75,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-  </v-content>
+  </v-main>
 </div>
 </template>
 <style scoped>

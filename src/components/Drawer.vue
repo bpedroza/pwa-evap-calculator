@@ -18,31 +18,31 @@
 export default {
   props: [
     'drawer',
-    'position'
+    'position',
   ],
   data() {
     return {
       drawerChild: null,
       items: [{
-          title: 'Calculator',
-          icon: 'view_module',
-          url: '/'
-        },
-        {
-          title: 'About this tool',
-          icon: 'question_answer',
-          url: '/about'
-        },
-      ]
-    }
+        title: 'Calculator',
+        icon: 'view_module',
+        url: '/',
+      },
+      {
+        title: 'About this tool',
+        icon: 'question_answer',
+        url: '/about',
+      },
+      ],
+    };
   },
   watch: {
     drawer(value) {
       this.drawerChild = value;
     },
     drawerChild(value) {
-      this.$emit('drawerStatus', value)
-    }
-  }
-}
+      this.$emit('drawerStatus', value);
+    },
+  },
+};
 </script>

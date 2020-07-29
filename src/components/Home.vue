@@ -6,21 +6,21 @@
     <v-toolbar-title v-text="title"></v-toolbar-title>
     <v-spacer></v-spacer>
   </v-app-bar>
-  <v-content>
+  <v-main>
     <Calculator />
-  </v-content>
+  </v-main>
 </div>
 </template>
 
 <script>
-import Drawer from './Drawer'
-import Calculator from './Calculator'
+import Drawer from './Drawer';
+import Calculator from './Calculator';
 
 export default {
   name: 'App',
   components: {
     Drawer,
-    Calculator
+    Calculator,
   },
   data() {
     return {
@@ -29,9 +29,9 @@ export default {
       title: 'Evaporative Cooler Helper',
       nav: {
         drawer: false,
-        position: null
+        position: null,
       },
-    }
-  }
-}
+    };
+  },
+};
 </script>

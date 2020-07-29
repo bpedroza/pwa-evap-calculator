@@ -1,5 +1,5 @@
-import Home from './components/Home.vue'
-import About from './components/About.vue'
+import Home from './components/Home.vue';
+import About from './components/About.vue';
 
 export default [{
   path: '',
@@ -8,9 +8,9 @@ export default [{
 },
 {
   path: '/about',
-  component: About
+  component: About,
 },
 {
   path: '*',
-  component: Home
+  component: Home,
 }];
