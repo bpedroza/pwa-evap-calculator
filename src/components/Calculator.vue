@@ -8,15 +8,25 @@
           <v-card-text>
             <v-form>
               <v-layout v-if="showOptions">
-                <v-flex xs8>
-                  <v-select prepend-icon="date_range" v-model="selected" :items="options" item-text="date"></v-select>
-                </v-flex>
-                <v-flex xs4>
-                  <v-select prepend-icon="schedule" v-model="selectedTime" :items="timeOptions" item-text="time"></v-select>
-                </v-flex>
+                <v-row no-gutters>
+                  <v-col cols="12" xs="12" sm="6" class="px-2">
+                    <v-select prepend-icon="date_range" label="Date" v-model="selected" :items="options" item-text="date"></v-select>
+                  </v-col>
+                  <v-col cols="12" xs="12" sm="6" class="px-2">
+                    <v-select prepend-icon="schedule" label="Time" v-model="selectedTime" :items="timeOptions" item-text="time"></v-select>
+                  </v-col>
+                </v-row>
               </v-layout>
-              <v-text-field prepend-icon="wb_sunny" name="temperature" v-model="temperature" label="Temperature" type="number"></v-text-field>
-              <v-text-field prepend-icon="invert_colors" name="humidity" v-model="humidity" label="Humidity" id="humidity" type="number"></v-text-field>
+              <v-layout>
+                <v-row no-gutters>
+                  <v-col cols="12" xs="12" sm="6" class="px-2">
+                    <v-text-field prepend-icon="wb_sunny" name="temperature" v-model="temperature" label="Temperature" type="number"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" xs="12" sm="6" class="px-2">
+                    <v-text-field prepend-icon="invert_colors" name="humidity" v-model="humidity" label="Humidity" id="humidity" type="number"></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-layout>
             </v-form>
           </v-card-text>
         </v-card>
