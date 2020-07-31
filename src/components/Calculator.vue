@@ -10,10 +10,10 @@
               <v-layout v-if="showOptions">
                 <v-row no-gutters>
                   <v-col cols="12" xs="12" sm="6" class="px-2">
-                    <v-select prepend-icon="date_range" label="Date" v-model="selected" :items="options" item-text="date"></v-select>
+                    <v-select prepend-icon="date_range" label="Date" v-model="selected" :items="options" item-text="date" item-value="date"></v-select>
                   </v-col>
                   <v-col cols="12" xs="12" sm="6" class="px-2">
-                    <v-select prepend-icon="schedule" label="Time" v-model="selectedTime" :items="timeOptions" item-text="time"></v-select>
+                    <v-select prepend-icon="schedule" label="Time" v-model="selectedTime" :items="timeOptions" item-text="time" item-value="time"></v-select>
                   </v-col>
                 </v-row>
               </v-layout>
@@ -53,33 +53,22 @@ export default {
     WeatherFetcher,
   },
   data() {
-    return {
-      selected: 'Current',
-      selectedTime: 'Now',
-    };
+    return {};
   },
   computed: {
     temperature: {
       get() {
-        const vm = this;
-        const found = this.timeOptions.find((el) => el.time === vm.selectedTime);
-
-        return found?.temperature || this.timeOptions[0].temperature;
+        return this.$store.getters.selectedHour.temperature;
       },
       set(newTemp) {
-        this.selected = 'Current';
         this.$store.commit('setTemp', newTemp);
       },
     },
     humidity: {
       get() {
-        const vm = this;
-        const found = this.timeOptions.find((el) => el.time === vm.selectedTime);
-
-        return found?.humidity || this.timeOptions[0].humidity;
+        return this.$store.getters.selectedHour.humidity;
       },
       set(newHumidity) {
-        this.selected = 'Current';
         this.$store.commit('setHumidity', newHumidity);
       },
     },
@@ -87,12 +76,10 @@ export default {
       return this.$store.getters.data;
     },
     timeOptions() {
-      const vm = this;
-
-      return this.options.find((el) => el.date === vm.selected)?.hours || [];
+      return this.$store.getters.selectedDate.hours;
     },
     outputTemp() {
-      const maxDecrease = Math.min(30, this.numOrZero(this.temperature) * 0.33);
+      const maxDecrease = this.numOrZero(this.temperature) * 0.33;
       const lossCoefficient = this.humidity > 50 ? 1.1 : 1.5;
       const effeciencyLoss = this.numOrZero(this.humidity) * lossCoefficient;
       const actualDecrease = maxDecrease - (maxDecrease * (effeciencyLoss / 100));
@@ -101,8 +88,25 @@ export default {
       return output <= 0 ? '--' : output;
     },
     showOptions() {
-      return this.options.length > 1;
+      return this.options.length > 2;
     },
+    selected: {
+      get() {
+        return this.$store.getters.selectedDate.date;
+      },
+      set(newDate) {
+        this.$store.commit('setDate', newDate);
+      }
+    },
+    selectedTime: {
+      get() {
+        return this.$store.getters.selectedHour.time;
+      },
+      set(newTime) {
+        console.log(`'${newTime}'`);
+        this.$store.dispatch('setHour', newTime);
+      }
+    }
   },
   methods: {
     numOrZero(num) {

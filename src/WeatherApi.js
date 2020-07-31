@@ -34,6 +34,9 @@ export default class WeatherApi {
   }
 
   formateDate(date) {
+    if(date.getDate() === this.now.getDate()) {
+      return 'Today';
+    }
     return date.toLocaleDateString('en-US', this.dateOptions);
   }
 
@@ -47,8 +50,8 @@ export default class WeatherApi {
       hourly,
     } = this.data;
     const data = {
-      'Current': {
-        date: 'Current',
+      'Today': {
+        date: 'Today',
         hours: [
           {
             time: 'Now',
@@ -82,7 +85,7 @@ export default class WeatherApi {
       main,
     } = this.data;
     return [{
-      date: 'Current',
+      date: 'Today',
       hours: [
         {
           time: 'Now',
